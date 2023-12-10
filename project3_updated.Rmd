@@ -1,6 +1,6 @@
 ---
-title: "Project 3: Transportability Analysis"
-subtitle: "[Github Link](https://github.com/Rosy98/PHP2550-Project-3)"
+title: "Transportability Analysis of a Cardiovascular Disease Risk Model Developed from the Framingham Heart Study to NHANES"
+subtitle: "Project 3: Simulation Studies [(Github Link)](https://github.com/Rosy98/PHP2550-Project-3)"
 author: "Zihan Zhou"
 date: "`r Sys.Date()`"
 abstract: >
