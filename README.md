@@ -8,10 +8,16 @@ The language used for this project is R.
 
 ## Files
 - `project3.R`: Code to preprocess data and basic exploratory data analysis.
-- `project3_Final.Rmd`: Code and text to generate the report.
-- `project3_Final.pdf`: The submitted report.
+- `project3_final.Rmd`: Code and text to generate the report.
+- `project3_final.pdf`: The submitted report.
 - `project3.bib`: Bibliography used for this project.
-- `brier_scores.RData`: Results data of simulation.
+- `project3_updated.R`: An extended version of `project3.R` containing additional exploratory data analysis (EDA) code.
+- `project3_updated.Rmd`: Code and text to generate the updated report based on feedback.
+- `project3_updated.pdf`: The updated report.
+- `Data`
+  - `framingham_df.RData`: The cleaned Framingham data.
+  - `df_2017.RData`: The cleaned NHANES data.
+  - `brier_scores.RData`: Results data of simulation.
 
 ## Packages
 | Package    | Version  |
@@ -23,6 +29,7 @@ The language used for this project is R.
 | gtsummary  | 1.7.2    |
 | pROC       | 1.18.5   |
 | mice       | 3.16.0   |
+| MASS       | 7.3-58.2 |
 | DescTools  | 0.99.50  |
 | stringr    | 1.5.0    |
 | dplyr      | 1.1.3    |
