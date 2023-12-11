@@ -306,7 +306,7 @@ The transportable ability is assessed by comparing the estimated Brier scores be
 ############################################
 
 # Test-train split
-set.seed(2550)
+set.seed(1)
 sample_men <- sample(c(TRUE, FALSE), nrow(framingham_df_men), replace=TRUE, prob=c(0.7,0.3))
 sample_women <- sample(c(TRUE, FALSE), nrow(framingham_df_women), replace=TRUE, prob=c(0.7,0.3))
 
@@ -622,7 +622,7 @@ simu_brier_func()
 brier_scores <- matrix(nrow = 1000, ncol = 2)
 
 # Perform 1000 simulations
-set.seed(2550)
+set.seed(1)
 for(i in 1:1000) {
   brier_scores[i, ] <- simu_brier_func()
 }
@@ -660,11 +660,11 @@ colnames(brier_df) <- c("Statistics", "Framingham", "NHANES", "Simulated NHANES 
 
 Table 3 summarizes the Brier Scores for the cardiovascular disease (CVD) risk prediction model across three datasets: Framingham, NHANES, and Simulated NHANES. It is observed that for both genders, the Brier Scores and their standard deviations are consistently higher in men than in women.
 
-A lower Brier Score suggests a better accuracy of the model. For the Framingham dataset, the Brier Scores were 0.1993 for men and 0.1148 for women, suggesting more precise predictions for women. 
+A lower Brier Score suggests a better accuracy of the model. For the Framingham dataset, the Brier Scores were 0.1917 for men and 0.1176 for women, suggesting more precise predictions for women. 
 
 When transporting this model to the NHANES data, there was an increase in Brier Scores, indicating less accuracy compared to the original Framingham data. The average Brier Score for men across the five imputation dataset is 0.2013 while for women is was 0.1374. The model for women still performs better than men. The standard deviation of Brier scores for women is smaller than men, suggesting more stable predictions. 
 
-Simulations based on summary statistics yielded the smallest Brier Scores among the datasets, with the mean Brier Score for the 1000 simulated datasets being 0.2123 for men and 0.1278 for women, suggesting better performance of model for women on the simulated data. The standard deviation for women remained smaller than for men. These results indicate that the model’s transportability for women is potentially better than for men in our studies.
+Simulations based on summary statistics yielded the smallest Brier Scores among the datasets, with the mean Brier Score for the 1000 simulated datasets being 0.2105 for men and 0.1284 for women, suggesting better performance of model for women on the simulated data. The standard deviation for women remained smaller than for men. These results indicate that the model’s transportability for women is potentially better than for men in our studies.
 ```{r}
 brier_df[is.na(brier_df)] <- "-"
 brier_df %>% kable(booktabs = T, escape = F, align = "c", caption = "Summary of the Brier Scores") %>%
@@ -683,23 +683,38 @@ plot_data_women <- data.frame(
   MeanBrier = mean_brier_women
 )
 
+# Adjustments for font sizes
+title_size <- 24
+axis_text_size <- 20
+axis_title_size <- 22
+
 # Plotting for men
 p1_sim_men <- ggplot(plot_data_men, aes(x = Simulation, y = MeanBrier)) +
-  geom_line(color = "blue") +
+  geom_line(color = "blue", linewidth = 0.8) +
   labs(title = "Men", x = "Number of Simulations", y = "Mean Brier Score") +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = title_size),
+    axis.text = element_text(size = axis_text_size),
+    axis.title = element_text(size = axis_title_size)
+  )
 
 # Plotting for women
 p2_sim_women <- ggplot(plot_data_women, aes(x = Simulation, y = MeanBrier)) +
-  geom_line(color = "red") +
+  geom_line(color = "red", linewidth = 0.8) +
   labs(title = "Women", x = "Number of Simulations", y = "Mean Brier Score") +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = title_size),
+    axis.text = element_text(size = axis_text_size),
+    axis.title = element_text(size = axis_title_size)
+  )
 ```
 
 
 ```{r, fig.width = 15, fig.height = 8}
 simu_plot <- ggarrange(p1_sim_men, p2_sim_women)
-annotate_figure(simu_plot, top = text_grob("Figure 2: Changes of mean Brier Score with the Number of Simulation",  face = "bold", size = 15))
+annotate_figure(simu_plot, top = text_grob("Changes of Mean Brier Score with the Number of Simulation",  face = "bold", size = 30))
 ```
 
 # 5. Discussion
