@@ -285,9 +285,9 @@ In target population, the outcome variable is missing, which presents a challeng
 
 $$\hat{\psi}_{\hat{\beta}} = \frac{\sum_{i=1}^{n} I(S_{i} = 1, D_{\text{test}, i} = 1)\hat{o}(X_{i})(Y_{i} - g_{\hat{\beta}}(X_{i}))^2}{\sum_{i=1}^{n} I(S_{i} = 0, D_{\text{test}, i} = 1)}$$
 
-where $\hat{o}(X)$ is an estimator for the inverse-odds weights in the test set, $$\frac{\text{Pr}[S=0|X, D_{test = 1}]}{\text{Pr}[S=1|X,D_{test = 1}]}.$$
+where $\hat{o}(X)$ is an estimator for the inverse-odds weights in the test set, $$\frac{\text{Pr}[S=0|X, D_{test}=1]}{\text{Pr}[S=1|X,D_{test}=1]}.$$
 
-The weights $\hat{o}(X)$ can be obtained by fitting a logistic regression model for the probability of the participants from the source population conditional on covariates $\text{Pr}[S=1|X,D_{test = 1}]$.
+The weights $\hat{o}(X)$ can be obtained by fitting a logistic regression model for the odds of the participants from the source population conditional on covariates $\text{Pr}[S=1|X,D_{test = 1}]$.
 
 ### Methods
 
@@ -684,9 +684,9 @@ plot_data_women <- data.frame(
 )
 
 # Adjustments for font sizes
-title_size <- 24
-axis_text_size <- 20
-axis_title_size <- 22
+title_size <- 30
+axis_text_size <- 25
+axis_title_size <- 28
 
 # Plotting for men
 p1_sim_men <- ggplot(plot_data_men, aes(x = Simulation, y = MeanBrier)) +
@@ -712,9 +712,9 @@ p2_sim_women <- ggplot(plot_data_women, aes(x = Simulation, y = MeanBrier)) +
 ```
 
 
-```{r, fig.width = 15, fig.height = 8}
+```{r, fig.width = 16, fig.height = 8}
 simu_plot <- ggarrange(p1_sim_men, p2_sim_women)
-annotate_figure(simu_plot, top = text_grob("Changes of Mean Brier Score with the Number of Simulation",  face = "bold", size = 30))
+annotate_figure(simu_plot, top = text_grob("Changes of Mean Brier Score with the Number of Simulation",  face = "bold", size = 36))
 ```
 
 # 5. Discussion
