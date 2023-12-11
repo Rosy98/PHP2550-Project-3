@@ -371,7 +371,7 @@ for (i in 1:5){
 ```{r}
 # Applying the eligibility criteria of Framingham on NHANES
 for (i in 1:5){
-  df_2017_imp[[i]] <- df_2017_imp[[i]] %>% filter(AGE <= 74 & AGE >= 30) %>% mutate(S = 0) 
+  df_2017_imp[[i]] <- df_2017_imp[[i]] %>% filter(AGE <= 74 & AGE >= 30) %>% mutate(S = 0, D = 1) 
 }
 ```
 
@@ -381,9 +381,16 @@ framingham_df_men <- framingham_df_men %>%
   mutate(S = 1) %>% 
   dplyr::select(CVD, SEX, TOTCHOL, AGE, SYSBP, CURSMOKE, DIABETES, BPMEDS, HDLC, BMI, SYSBP_UT, SYSBP_T, S)
 
+set.seed(1)
+framingham_df_men$D <- sample(c(1, 0), nrow(framingham_df_men), replace=TRUE, prob=c(0.3,0.7))
+
+
 framingham_df_women <- framingham_df_women %>% 
   mutate(S = 1) %>% 
   dplyr::select(CVD, SEX, TOTCHOL, AGE, SYSBP, CURSMOKE, DIABETES, BPMEDS, HDLC, BMI, SYSBP_UT, SYSBP_T, S)
+
+set.seed(1)
+framingham_df_women$D <- sample(c(1, 0), nrow(framingham_df_women), replace=TRUE, prob=c(0.3,0.7))
 ```
 
 ```{r}
@@ -406,13 +413,6 @@ composite_imp_women <- vector("list", length = 5)
 for (i in 1:5){
   composite_imp_men[[i]] <- merge(df_2017_imp_men[[i]], framingham_df_men, all = TRUE)
   composite_imp_women[[i]] <- merge(df_2017_imp_women[[i]], framingham_df_women, all = TRUE)
-  
-  set.seed(1)
-  D_men <- sample(c(1, 0), nrow(composite_imp_men[[i]]), replace=TRUE, prob=c(0.3,0.7))
-  D_women <- sample(c(1, 0), nrow(composite_imp_women[[i]]), replace=TRUE, prob=c(0.3,0.7))
-  
-  composite_imp_men[[i]] <- composite_imp_men[[i]] %>% mutate(D = D_men)
-  composite_imp_women[[i]] <- composite_imp_women[[i]] %>% mutate(D = D_women)
 }
 ```
 
@@ -574,17 +574,15 @@ simu_brier_func <- function(){
   # Call the function to get the simulated data
   simulated_data_df <- simulate_data()
   
-  simulated_data_df_men <- simulated_data_df %>% filter(SEX == 1, AGE <= 74 & AGE >= 30)
-  simulated_data_df_women <- simulated_data_df %>% filter(SEX == 2, AGE <= 74 & AGE >= 30)
+  simulated_data_df_men <- simulated_data_df %>% 
+    filter(SEX == 1, AGE <= 74 & AGE >= 30) %>% 
+    mutate(D = 1)
+  simulated_data_df_women <- simulated_data_df %>% 
+    filter(SEX == 2, AGE <= 74 & AGE >= 30) %>% 
+    mutate(D = 1)
   
   composite_sim_men <- merge(simulated_data_df_men, framingham_df_men, all = TRUE)
   composite_sim_women <- merge(simulated_data_df_women , framingham_df_women, all = TRUE)
-  
-  D_men <- sample(c(1, 0), nrow(composite_sim_men), replace=TRUE, prob=c(0.3,0.7))
-  D_women <- sample(c(1, 0), nrow(composite_sim_women), replace=TRUE, prob=c(0.3,0.7))
-  
-  composite_sim_men <- composite_sim_men %>% mutate(D = D_men)
-  composite_sim_women <- composite_sim_women %>% mutate(D = D_women)
   
   mod_men_sim_train <- glm(CVD~log(HDLC)+log(TOTCHOL)+log(AGE)+log(SYSBP_UT+1)+
                  log(SYSBP_T+1)+CURSMOKE+DIABETES, 
