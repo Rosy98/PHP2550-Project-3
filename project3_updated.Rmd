@@ -287,7 +287,7 @@ $$\hat{\psi}_{\hat{\beta}} = \frac{\sum_{i=1}^{n} I(S_{i} = 1, D_{\text{test}, i
 
 where $\hat{o}(X)$ is an estimator for the inverse-odds weights in the test set, $$\frac{\text{Pr}[S=0|X, D_{test}=1]}{\text{Pr}[S=1|X,D_{test}=1]}.$$
 
-The weights $\hat{o}(X)$ can be obtained by fitting a logistic regression model for the odds of the participants from the source population conditional on covariates $\text{Pr}[S=1|X,D_{test = 1}]$.
+The weights $\hat{o}(X)$ can be obtained by fitting a logistic regression model for the odds of the participants from the source population conditional on covariates $\text{Pr}[S=1|X,D_{test} =1]$.
 
 ### Methods
 
