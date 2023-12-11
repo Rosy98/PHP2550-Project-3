@@ -714,7 +714,7 @@ p2_sim_women <- ggplot(plot_data_women, aes(x = Simulation, y = MeanBrier)) +
 
 ```{r, fig.width = 16, fig.height = 8}
 simu_plot <- ggarrange(p1_sim_men, p2_sim_women)
-annotate_figure(simu_plot, top = text_grob("Changes of Mean Brier Score with the Number of Simulation",  face = "bold", size = 36))
+annotate_figure(simu_plot, top = text_grob("Figure 2: Changes of Mean Brier Score with the Number of Simulation",  face = "bold", size = 30))
 ```
 
 # 5. Discussion
